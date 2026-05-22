@@ -84,7 +84,6 @@
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Mở công cụ soạn thảo văn bản chuẩn Việt Nam"/>
-        <bt:String id="GetStarted.LearnMoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812"/>
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>
