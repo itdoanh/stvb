@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Văn bản Việt Nam AI</title>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="taskpane.css">
+</head>
+<body>
+    <div class="app-shell">
+        <header class="topbar">
+            <div class="logo-mark">VN</div>
+            <div>
+                <h1>Văn bản Việt Nam AI</h1>
+                <p>Chuẩn hóa Word theo NĐ 30/2020 + AI Agent</p>
+            </div>
+        </header>
+
+        <nav class="tabs" aria-label="Điều hướng công cụ">
+            <button class="tab-btn active" data-tab="ai" onclick="switchTab('ai')">AI</button>
+            <button class="tab-btn" data-tab="format" onclick="switchTab('format')">Format</button>
+            <button class="tab-btn" data-tab="insert" onclick="switchTab('insert')">Chèn</button>
+            <button class="tab-btn" data-tab="toc" onclick="switchTab('toc')">Mục lục</button>
+            <button class="tab-btn" data-tab="tools" onclick="switchTab('tools')">Tools</button>
+            <button class="tab-btn" data-tab="settings" onclick="switchTab('settings')">Setting</button>
+        </nav>
+
+        <div id="status-bar" class="status-bar hidden"><span id="status-icon">✓</span><span id="status-message"></span></div>
+
+        <main class="content">
+            <section id="tab-ai" class="tab-panel active">
+                <div class="hero-card">
+                    <div class="eyebrow">Agentic Word Editor</div>
+                    <h2>Ra lệnh cho AI sửa trực tiếp tài liệu Word</h2>
+                    <p>AI đọc nội dung hiện tại, lập kế hoạch, rồi gọi các công cụ Word: áp style, tạo mục lục, chèn caption, soạn lại đoạn, chèn ảnh bằng URL/base64.</p>
+                </div>
+
+                <div class="panel">
+                    <label class="label">Model dùng cho lần chạy này</label>
+                    <div class="inline-row">
+                        <select id="agentModel"></select>
+                        <button class="icon-btn" onclick="loadAiModels()">↻</button>
+                    </div>
+
+                    <label class="label">Yêu cầu cho AI Agent</label>
+                    <textarea id="agentPrompt" rows="7" placeholder="VD: Chuẩn hóa toàn bộ báo cáo theo Nghị định 30, tạo mục lục, đánh số hình/bảng, sửa lỗi trình bày và đề xuất chèn 3 hình minh họa phù hợp."></textarea>
+
+                    <div class="quick-prompts">
+                        <button onclick="setAgentPrompt('Chuẩn hóa toàn bộ văn bản theo Nghị định 30/2020/NĐ-CP: lề, font, heading 1-5, spacing, số trang, mục lục.')">Chuẩn hóa toàn bộ</button>
+                        <button onclick="setAgentPrompt('Đọc tài liệu, tạo dàn ý chuẩn chương/mục và áp dụng Heading 1-5 đúng cấp.')">Tạo dàn ý</button>
+                        <button onclick="setAgentPrompt('Sửa văn phong hành chính Việt Nam, giữ nguyên ý, ngắn gọn, trang trọng.')">Sửa văn phong</button>
+                        <button onclick="setAgentPrompt('Đề xuất và chèn caption cho các hình, bảng; tạo danh sách hình và bảng.')">Caption + danh sách</button>
+                    </div>
+
+                    <div class="switch-row">
+                        <label><input type="checkbox" id="agentCanEdit" checked> Cho phép AI sửa trực tiếp Word</label>
+                        <label><input type="checkbox" id="agentCanInsertImages" checked> Cho phép chèn ảnh từ URL/base64</label>
+                    </div>
+
+                    <div class="switch-row">
+                        <label><input type="checkbox" id="agentAnalysisOnly"> Chế độ phân tích (không sửa)</label>
+                        <label><input type="checkbox" id="agentSmartContext" checked> Trích xuất context thông minh</label>
+                    </div>
+
+                    <div class="progress-bar hidden" id="agentProgress">
+                        <div class="progress-fill" id="agentProgressFill"></div>
+                        <span class="progress-text" id="agentProgressText">0%</span>
+                    </div>
+
+                    <button class="primary-btn" onclick="runAiAgent()">▶ Chạy AI Agent</button>
+                </div>
+
+                <div class="panel log-panel">
+                    <div class="panel-title">Nhật ký Agent</div>
+                    <pre id="agentLog">Sẵn sàng. Hãy cấu hình API ở tab Setting nếu chưa có.</pre>
+                </div>
+            </section>
+
+            <section id="tab-format" class="tab-panel">
+                <div class="panel">
+                    <div class="panel-title">Thiết lập trang chuẩn</div>
+                    <div class="grid-2">
+                        <label>Khổ giấy<select id="paperSize"><option value="A4">A4</option><option value="A3">A3</option><option value="Letter">Letter</option></select></label>
+                        <label>Font<select id="defaultFont"><option>Times New Roman</option><option>Arial</option><option>VNI-Times</option></select></label>
+                        <label>Lề trái (cm)<input id="marginLeft" type="number" value="3" step="0.5"></label>
+                        <label>Lề phải (cm)<input id="marginRight" type="number" value="2" step="0.5"></label>
+                        <label>Lề trên (cm)<input id="marginTop" type="number" value="2" step="0.5"></label>
+                        <label>Lề dưới (cm)<input id="marginBottom" type="number" value="2" step="0.5"></label>
+                        <label>Cỡ chữ<input id="defaultFontSize" type="number" value="13"></label>
+                        <label>Dãn dòng<select id="lineSpacing"><option value="1.0">1.0</option><option value="1.15">1.15</option><option value="1.5" selected>1.5</option><option value="2.0">2.0</option></select></label>
+                    </div>
+                    <button class="primary-btn" onclick="applyPageSetup()">Áp dụng thiết lập trang</button>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">Style đề mục</div>
+                    <div class="heading-stack">
+                        <button onclick="applyHeadingStyle(1)"><b>H1</b><span>CHƯƠNG 1. TỔNG QUAN</span></button>
+                        <button onclick="applyHeadingStyle(2)"><b>H2</b><span>1.1. CƠ SỞ LÝ LUẬN</span></button>
+                        <button onclick="applyHeadingStyle(3)"><b>H3</b><span><i>1.1.1. Khái niệm cơ bản</i></span></button>
+                        <button onclick="applyHeadingStyle(4)"><b>H4</b><span>1.1.1.1. Định nghĩa</span></button>
+                        <button onclick="applyHeadingStyle(5)"><b>H5</b><span><i>a) Ý nhỏ</i></span></button>
+                    </div>
+                    <button class="secondary-btn" onclick="createVietnameseStyles()">Cập nhật style cho toàn văn bản</button>
+                </div>
+            </section>
+
+            <section id="tab-insert" class="tab-panel">
+                <div class="panel">
+                    <div class="panel-title">Caption</div>
+                    <label>Loại<select id="captionType"><option value="Hình">Hình - đặt dưới hình</option><option value="Bảng">Bảng - đặt trên bảng</option><option value="Công thức">Công thức - căn phải</option></select></label>
+                    <label>Nội dung<input id="captionText" placeholder="Sơ đồ kiến trúc hệ thống"></label>
+                    <label class="check"><input type="checkbox" id="autoNumber" checked> Tự động đánh số</label>
+                    <button class="primary-btn" onclick="insertCaption()">Chèn caption</button>
+                    <button class="secondary-btn" onclick="createCaptionStyles()">Định dạng caption hiện có</button>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">Số trang & khối hành chính</div>
+                    <div class="grid-2">
+                        <label>Vị trí<select id="pageNumberPosition"><option value="center">Giữa</option><option value="right">Phải</option><option value="left">Trái</option></select></label>
+                        <label>Bắt đầu từ<input id="startPageNumber" type="number" value="1"></label>
+                    </div>
+                    <label class="check"><input type="checkbox" id="skipFirstPage" checked> Bỏ trang bìa</label>
+                    <label class="check"><input type="checkbox" id="startFromPart1"> Bắt đầu từ Chương/Phần 1</label>
+                    <div class="button-row"><button onclick="insertPageNumbers()">Chèn số trang</button><button onclick="removePageNumbers()">Xóa số trang</button></div>
+                    <div class="button-row"><button onclick="insertOfficialHeader()">Đầu trang hành chính</button><button onclick="insertSignatureBlock()">Khối ký tên</button></div>
+                </div>
+            </section>
+
+            <section id="tab-toc" class="tab-panel">
+                <div class="panel command-list">
+                    <button onclick="insertTableOfContents()"><b>Mục lục</b><span>Tạo từ Heading 1-5</span></button>
+                    <button onclick="insertListOfFigures()"><b>Danh sách hình</b><span>Tạo bảng danh mục hình ảnh</span></button>
+                    <button onclick="insertListOfTables()"><b>Danh sách bảng</b><span>Tạo bảng danh mục bảng biểu</span></button>
+                    <button onclick="updateAllFields()"><b>Cập nhật Fields</b><span>Cập nhật mục lục, caption, số trang</span></button>
+                </div>
+            </section>
+
+            <section id="tab-tools" class="tab-panel">
+                <div class="panel command-list">
+                    <button onclick="fixOrphanHeadings()"><b>Sửa heading mồ côi</b><span>Giữ tiêu đề đi cùng nội dung</span></button>
+                    <button onclick="removeDoubleSpaces()"><b>Xóa khoảng trắng thừa</b><span>Chuẩn hóa spacing trong nội dung</span></button>
+                    <button onclick="fixParagraphSpacing()"><b>Chuẩn hóa khoảng cách đoạn</b><span>Thay Enter thủ công bằng Before/After</span></button>
+                    <button onclick="applyVietnameseQuotes()"><b>Ngoặc kép tiếng Việt</b><span>Chuyển "..." thành “...”</span></button>
+                </div>
+            </section>
+
+            <section id="tab-settings" class="tab-panel">
+                <div class="panel">
+                    <div class="panel-title">AI Provider</div>
+                    <label>Nhà cung cấp<select id="aiProvider" onchange="updateProviderFields()"><option value="openrouter">OpenRouter</option><option value="local">Local LM / OpenAI-compatible</option></select></label>
+                    <label>Base URL<input id="aiBaseUrl" placeholder="https://openrouter.ai/api/v1"></label>
+                    <label>API Key<input id="aiApiKey" type="password" placeholder="sk-or-... hoặc local key nếu có"></label>
+                    <label>Model mặc định<input id="aiDefaultModel" placeholder="openai/gpt-4o-mini hoặc qwen2.5:7b"></label>
+                    <div class="button-row"><button onclick="saveAiSettings()">Lưu Setting</button><button onclick="loadAiModels()">Load Models</button></div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">Agent Mode</div>
+                    <label>System prompt</label>
+                    <textarea id="aiSystemPrompt" rows="7">Bạn là AI Agent soạn thảo Word chuẩn Việt Nam. Luôn ưu tiên Nghị định 30/2020/NĐ-CP, văn phong hành chính rõ ràng, heading đúng cấp, caption hình/bảng/công thức thống nhất, mục lục cập nhật. Khi cần sửa tài liệu, trả về JSON actions hợp lệ.</textarea>
+                    <button class="secondary-btn" onclick="saveAiSettings()">Lưu system prompt</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="taskpane.js"></script>
+</body>
+</html>
