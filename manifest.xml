@@ -11,16 +11,16 @@
   <DefaultLocale>vi-VN</DefaultLocale>
   <DisplayName DefaultValue="Soạn thảo văn bản Việt Nam"/>
   <Description DefaultValue="Công cụ soạn thảo văn bản chuẩn Việt Nam"/>
-  <IconUrl DefaultValue="https://localhost:3000/assets/icon-32.png"/>
-  <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-80.png"/>
-  <SupportUrl DefaultValue="https://localhost:3000/"/>
+  <IconUrl DefaultValue="https://itdoanh.github.io/stvb/assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://itdoanh.github.io/stvb/assets/icon-80.png"/>
+  <SupportUrl DefaultValue="https://itdoanh.github.io/stvb/"/>
 
   <Hosts>
     <Host Name="Document"/>
   </Hosts>
 
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://localhost:3000/taskpane.html"/>
+    <SourceLocation DefaultValue="https://itdoanh.github.io/stvb/taskpane.html"/>
   </DefaultSettings>
 
   <Permissions>ReadWriteDocument</Permissions>
@@ -68,13 +68,13 @@
 
     <Resources>
       <bt:Images>
-        <bt:Image id="Icon.16x16" DefaultValue="https://localhost:3000/assets/icon-16.png"/>
-        <bt:Image id="Icon.32x32" DefaultValue="https://localhost:3000/assets/icon-32.png"/>
-        <bt:Image id="Icon.80x80" DefaultValue="https://localhost:3000/assets/icon-80.png"/>
+        <bt:Image id="Icon.16x16" DefaultValue="https://itdoanh.github.io/stvb/assets/icon-16.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://itdoanh.github.io/stvb/assets/icon-32.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://itdoanh.github.io/stvb/assets/icon-80.png"/>
       </bt:Images>
       <bt:Urls>
         <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812"/>
-        <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:3000/taskpane.html"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://itdoanh.github.io/stvb/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="GetStarted.Title" DefaultValue="Soạn thảo văn bản Việt Nam"/>
