@@ -810,6 +810,23 @@ function loadAiSettingsToUI() {
 async function loadAiModels() {
     const s = getAiSettings();
     const select = document.getElementById('agentModel');
+    
+    // Validate base URL
+    if (!s.baseUrl || s.baseUrl.trim() === '') {
+        select.innerHTML = '<option>Lỗi: Base URL trống</option>';
+        logAgent('Lỗi: Base URL chưa được cấu hình. Vui lòng nhập ở tab Setting.');
+        showStatus('Lỗi: Base URL trống. Cấu hình ở tab Setting.', 'error');
+        return;
+    }
+    
+    // Validate API key for OpenRouter
+    if (s.provider === 'openrouter' && (!s.apiKey || s.apiKey.trim() === '')) {
+        select.innerHTML = '<option>Lỗi: API Key trống</option>';
+        logAgent('Lỗi: API Key chưa được cấu hình cho OpenRouter. Vui lòng nhập ở tab Setting.');
+        showStatus('Lỗi: API Key trống. Cấu hình ở tab Setting.', 'error');
+        return;
+    }
+    
     select.innerHTML = '<option>Đang tải...</option>';
     logAgent('Đang tải danh sách model từ ' + s.baseUrl + '...');
 
@@ -821,13 +838,14 @@ async function loadAiModels() {
                 'Content-Type': 'application/json'
             }
         });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
+        if (!res.ok) throw new Error('HTTP ' + res.status + ': ' + res.statusText);
         const data = await res.json();
         const models = data.data || data.models || [];
         select.innerHTML = '';
         if (models.length === 0) {
             select.innerHTML = '<option>Không có model</option>';
             logAgent('Không tìm thấy model nào. Kiểm tra API key và base URL.');
+            showStatus('Không tìm thấy model. Kiểm tra cấu hình.', 'warning');
             return;
         }
         models.forEach(function(m) {
@@ -843,6 +861,7 @@ async function loadAiModels() {
     } catch (err) {
         select.innerHTML = '<option>Lỗi load model</option>';
         logAgent('Lỗi load model: ' + err.message);
+        logAgent('Kiểm tra: Base URL có đúng không? API Key có hợp lệ không?');
         showStatus('Lỗi load model: ' + err.message, 'error');
     }
 }
