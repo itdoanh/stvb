@@ -4,6 +4,11 @@
  */
 
 // =====================
+// GLOBAL CONSTANTS (Must be at top)
+// =====================
+const AI_SETTINGS_KEY = 'vn_word_ai_settings';
+
+// =====================
 // Office Initialization
 // =====================
 Office.onReady(function (info) {
@@ -332,7 +337,8 @@ function insertPageNumbers() {
                         para.alignment = Word.Alignment.left;
                     }
 
-                    para.insertField(Word.FieldType.page, true, Word.InsertLocation.end);
+                    const range = para.getRange('End');
+                    range.insertField(Word.FieldType.page, true);
 
                     if (skipFirst && index === 0) {
                         section.differentFirstPage = true;
@@ -412,7 +418,8 @@ function insertCaption() {
                 captionPara.font.size = 12;
                 captionPara.alignment = Word.Alignment.centered;
                 
-                const seqField = captionPara.insertField(Word.FieldType.sequence, true, Word.InsertLocation.end);
+                const range = captionPara.getRange('End');
+                const seqField = range.insertField(Word.FieldType.sequence, true);
                 captionPara.insertText(": " + text, Word.InsertLocation.end);
             } else {
                 captionText = type + ": " + text;
@@ -490,7 +497,8 @@ function insertListOfFigures() {
         range.alignment = Word.Alignment.centered;
         
         const tocPara = range.insertParagraph("", Word.InsertLocation.after);
-        tocPara.insertField(Word.FieldType.toc, true, Word.InsertLocation.end);
+        const tocRange = tocPara.getRange('End');
+        tocRange.insertField(Word.FieldType.toc, true);
         
         return context.sync();
     })
@@ -512,7 +520,8 @@ function insertListOfTables() {
         range.alignment = Word.Alignment.centered;
         
         const tocPara = range.insertParagraph("", Word.InsertLocation.after);
-        tocPara.insertField(Word.FieldType.toc, true, Word.InsertLocation.end);
+        const tocRange = tocPara.getRange('End');
+        tocRange.insertField(Word.FieldType.toc, true);
         
         return context.sync();
     })
@@ -750,8 +759,6 @@ function insertOfficialHeader() {
 // =====================
 // 7. AI AGENTIC INTEGRATION
 // =====================
-
-const AI_SETTINGS_KEY = 'vn_word_ai_settings';
 
 function getAiSettings() {
     try {
