@@ -1,8 +1,8 @@
 # 📁 Hướng dẫn Deploy Add-in qua Shared Folder (Word 2026)
 
-## ✅ Giải pháp: Ép Word nhận Add-in qua Thư mục chia sẻ
+## ✅ Giải pháp: Ép Word nhận Add-in qua Thư mục chia sẻ + GitHub Pages
 
-Khi Word 2026 bị lỗi tài khoản hoặc khóa tính năng "Upload My Add-in", cách duy nhất là dùng **Shared Folder** (Thư mục chia sẻ).
+Khi Word 2026 bị lỗi tài khoản hoặc khóa tính năng "Upload My Add-in", cách duy nhất là dùng **Shared Folder** (Thư mục chia sẻ) với manifest.xml trỏ đến **GitHub Pages**.
 
 ---
 
@@ -16,6 +16,13 @@ mkdir C:\WordAddins
 ### 1.2 Copy manifest.xml vào thư mục
 ```cmd
 copy manifest.xml C:\WordAddins\manifest.xml
+```
+
+**Lưu ý:** Manifest.xml phải có nội dung sau (dùng GitHub Pages URLs):
+```xml
+<IconUrl DefaultValue="https://itdoanh.github.io/stvb/assets/icon-32.png"/>
+<HighResolutionIconUrl DefaultValue="https://itdoanh.github.io/stvb/assets/icon-80.png"/>
+<SourceLocation DefaultValue="https://itdoanh.github.io/stvb/taskpane.html"/>
 ```
 
 ### 1.3 Share thư mục
@@ -68,33 +75,60 @@ copy manifest.xml C:\WordAddins\manifest.xml
 
 ## 🚀 Bước 4: Phát triển & Cập nhật
 
-Mỗi khi bạn cập nhật `manifest.xml`:
+Mỗi khi bạn cập nhật code:
 
-1. **Cập nhật file** trong `C:\WordAddins\manifest.xml`
-2. **Khởi động lại Word**
-3. Add-in sẽ tự động load phiên bản mới
+1. **Push lên GitHub**
+   ```bash
+   git add .
+   git commit -m "Update: [mô tả thay đổi]"
+   git push origin main
+   ```
+
+2. **Chờ GitHub Pages build** (1-2 phút)
+
+3. **Trong Word**, nhấn **Refresh** trong tab SHARED FOLDER
+
+4. Add-in sẽ tự động load phiên bản mới từ GitHub Pages
 
 ---
 
-## 📝 Manifest cho Local Development
+## 📝 Manifest cho GitHub Pages
 
-Đảm bảo manifest.xml dùng HTTPS localhost:
+Đảm bảo manifest.xml dùng GitHub Pages URLs:
 
 ```xml
-<IconUrl DefaultValue="https://localhost:3000/assets/icon-32.png"/>
-<HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-80.png"/>
-<SourceLocation DefaultValue="https://localhost:3000/taskpane.html"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+           xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides/1.1"
+           xsi:type="TaskPaneApp">
+
+  <Id>f3e8a1b2-c4d5-4e6f-8a9b-0c1d2e3f4a5b</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>VietNam Document Editor</ProviderName>
+  <DefaultLocale>vi-VN</DefaultLocale>
+  <DisplayName DefaultValue="Soạn thảo văn bản Việt Nam"/>
+  <Description DefaultValue="Công cụ soạn thảo văn bản chuẩn Việt Nam"/>
+  <IconUrl DefaultValue="https://itdoanh.github.io/stvb/assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://itdoanh.github.io/stvb/assets/icon-80.png"/>
+  <SupportUrl DefaultValue="https://itdoanh.github.io/stvb/"/>
+
+  <Hosts>
+    <Host Name="Document"/>
+  </Hosts>
+
+  <DefaultSettings>
+    <SourceLocation DefaultValue="https://itdoanh.github.io/stvb/taskpane.html"/>
+  </DefaultSettings>
+
+  <Permissions>ReadWriteDocument</Permissions>
+
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+    <!-- ... rest of manifest ... -->
+  </VersionOverrides>
+</OfficeApp>
 ```
-
----
-
-## 🔗 Chạy Local HTTPS Server
-
-```bash
-node https-server.js
-```
-
-Server sẽ chạy tại: `https://localhost:3000`
 
 ---
 
@@ -103,34 +137,29 @@ Server sẽ chạy tại: `https://localhost:3000`
 | Vấn đề | Giải pháp |
 |-------|----------|
 | Shared Folder không xuất hiện | Khởi động lại Word, kiểm tra Network Path |
-| Add-in không load | Kiểm tra HTTPS server đang chạy không |
-| Lỗi certificate | Chấp nhận certificate tự ký khi Word yêu cầu |
+| "Cannot connect to catalog" | Kiểm tra manifest.xml có trong `C:\WordAddins` không |
+| Add-in không load | Kiểm tra GitHub Pages URLs có đúng không, refresh tab |
+| Lỗi certificate | Chấp nhận certificate khi Word yêu cầu |
 | Manifest không hợp lệ | Kiểm tra XML syntax, icon URLs |
 
 ---
 
-## 💡 Mẹo cho Developer
+## 💡 Ưu điểm của cách này
 
-Nếu dùng Office Add-in CLI:
-
-```bash
-npx office-addin-debugging start manifest.xml word
-```
-
-Lệnh này sẽ tự động:
-- Tạo Shared Folder
-- Thêm vào Trust Center
-- Khởi động Word
-- Load add-in
+✅ **Không cần local server** - Dùng GitHub Pages  
+✅ **Không cần AppSource** - Deploy trực tiếp  
+✅ **Không cần Microsoft 365 Admin** - Chỉ cần Shared Folder  
+✅ **Dễ cập nhật** - Push lên GitHub, Word tự load phiên bản mới  
+✅ **Hoạt động 100% với Word 2026** - Phương pháp chính thức của Microsoft  
 
 ---
 
 ## 🎓 Kết luận
 
-**Shared Folder** là cách chính thức để deploy add-in khi:
-- Gặp lỗi tài khoản Word
-- Không có Microsoft 365 Admin
-- Không muốn đăng ký AppSource
-- Chỉ cần test/phát triển locally
+**Shared Folder + GitHub Pages** là cách tốt nhất để:
+- Deploy add-in mà không cần local server
+- Phát triển và test add-in
+- Chia sẻ add-in với team
+- Cập nhật add-in dễ dàng
 
 Đây là phương pháp được Microsoft khuyến nghị cho developer!
