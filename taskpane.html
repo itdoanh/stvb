@@ -39,9 +39,10 @@
                 <div class="panel">
                     <label class="label">Model dùng cho lần chạy này</label>
                     <div class="inline-row">
-                        <select id="agentModel"></select>
+                        <input type="text" id="modelSearch" placeholder="Tìm model..." onkeyup="filterAiModels(this.value)" style="flex:1; padding:8px; border:1px solid #ccc; border-radius:4px;">
                         <button class="icon-btn" onclick="loadAiModels()">↻</button>
                     </div>
+                    <select id="agentModel" style="width:100%; margin-top:8px;"></select>
 
                     <label class="label">Yêu cầu cho AI Agent</label>
                     <textarea id="agentPrompt" rows="7" placeholder="VD: Chuẩn hóa toàn bộ báo cáo theo Nghị định 30, tạo mục lục, đánh số hình/bảng, sửa lỗi trình bày và đề xuất chèn 3 hình minh họa phù hợp."></textarea>
