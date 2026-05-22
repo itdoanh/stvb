@@ -1,31 +1,27 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
-           xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+           xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides/1.1"
            xsi:type="TaskPaneApp">
 
   <Id>f3e8a1b2-c4d5-4e6f-8a9b-0c1d2e3f4a5b</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>VietNam Document Editor</ProviderName>
   <DefaultLocale>vi-VN</DefaultLocale>
-  <DisplayName DefaultValue="Soạn thảo văn bản Việt Nam" />
-  <Description DefaultValue="Công cụ soạn thảo văn bản chuẩn Việt Nam theo Nghị định 30/2020/NĐ-CP" />
-  <IconUrl DefaultValue="https://itdoanh.github.io/stvb/assets/icon-32.png" />
-  <HighResolutionIconUrl DefaultValue="https://itdoanh.github.io/stvb/assets/icon-80.png" />
-  <SupportUrl DefaultValue="https://itdoanh.github.io/stvb/help.html" />
-
+  <DisplayName DefaultValue="Soạn thảo văn bản Việt Nam"/>
+  <Description DefaultValue="Công cụ soạn thảo văn bản chuẩn Việt Nam theo Nghị định 30/2020/NĐ-CP"/>
   <Hosts>
-    <Host Name="Document" />
+    <Host Name="Document"/>
   </Hosts>
 
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://itdoanh.github.io/stvb/taskpane.html" />
+    <SourceLocation DefaultValue="https://itdoanh.github.io/stvb/taskpane.html"/>
   </DefaultSettings>
 
   <Permissions>ReadWriteDocument</Permissions>
 
-  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
     <Hosts>
       <Host xsi:type="Document">
         <DesktopFormFactor>
@@ -37,26 +33,26 @@
           <ExtensionPoint xsi:type="PrimaryCommandSurface">
             <OfficeTab id="TabHome">
               <Group id="CommandsGroup">
-                <Label resid="CommandsGroup.Label" />
+                <Label resid="CommandsGroup.Label"/>
                 <Icon>
-                  <bt:Image size="16" resid="Icon.16x16" />
-                  <bt:Image size="32" resid="Icon.32x32" />
-                  <bt:Image size="80" resid="Icon.80x80" />
+                  <bt:Image size="16" resid="Icon.16x16"/>
+                  <bt:Image size="32" resid="Icon.32x32"/>
+                  <bt:Image size="80" resid="Icon.80x80"/>
                 </Icon>
                 <Control xsi:type="Button" id="TaskpaneButton">
-                  <Label resid="TaskpaneButton.Label" />
+                  <Label resid="TaskpaneButton.Label"/>
                   <Supertip>
-                    <Title resid="TaskpaneButton.Label" />
-                    <Description resid="TaskpaneButton.Tooltip" />
+                    <Title resid="TaskpaneButton.Label"/>
+                    <Description resid="TaskpaneButton.Tooltip"/>
                   </Supertip>
                   <Icon>
-                    <bt:Image size="16" resid="Icon.16x16" />
-                    <bt:Image size="32" resid="Icon.32x32" />
-                    <bt:Image size="80" resid="Icon.80x80" />
+                    <bt:Image size="16" resid="Icon.16x16"/>
+                    <bt:Image size="32" resid="Icon.32x32"/>
+                    <bt:Image size="80" resid="Icon.80x80"/>
                   </Icon>
                   <Action xsi:type="ShowTaskpane">
                     <TaskpaneId>ButtonId1</TaskpaneId>
-                    <SourceLocation resid="Taskpane.Url" />
+                    <SourceLocation resid="Taskpane.Url"/>
                   </Action>
                 </Control>
               </Group>
@@ -65,6 +61,7 @@
         </DesktopFormFactor>
       </Host>
     </Hosts>
+
     <Resources>
       <bt:Images>
         <bt:Image id="Icon.16x16" DefaultValue="https://itdoanh.github.io/stvb/assets/icon-16.png"/>
@@ -72,18 +69,18 @@
         <bt:Image id="Icon.80x80" DefaultValue="https://itdoanh.github.io/stvb/assets/icon-80.png"/>
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812" />
-        <bt:Url id="Taskpane.Url" DefaultValue="https://itdoanh.github.io/stvb/taskpane.html" />
+        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://itdoanh.github.io/stvb/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="GetStarted.Title" DefaultValue="Soạn thảo văn bản Việt Nam" />
-        <bt:String id="GetStarted.Description" DefaultValue="Add-in đã được cài đặt. Mở tab Home và nhấn nút Soạn thảo văn bản Việt Nam để bắt đầu." />
-        <bt:String id="CommandsGroup.Label" DefaultValue="Văn bản VN" />
-        <bt:String id="TaskpaneButton.Label" DefaultValue="Soạn thảo văn bản Việt Nam" />
+        <bt:String id="GetStarted.Title" DefaultValue="Soạn thảo văn bản Việt Nam"/>
+        <bt:String id="GetStarted.Description" DefaultValue="Add-in đã được cài đặt. Mở tab Home và nhấn nút Soạn thảo văn bản Việt Nam để bắt đầu."/>
+        <bt:String id="CommandsGroup.Label" DefaultValue="Văn bản VN"/>
+        <bt:String id="TaskpaneButton.Label" DefaultValue="Soạn thảo văn bản Việt Nam"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Mở công cụ soạn thảo văn bản chuẩn Việt Nam" />
-        <bt:String id="GetStarted.LearnMoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812" />
+        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Mở công cụ soạn thảo văn bản chuẩn Việt Nam"/>
+        <bt:String id="GetStarted.LearnMoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812"/>
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>
