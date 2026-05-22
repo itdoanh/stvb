@@ -61,13 +61,22 @@ Nếu tất cả đều hiển thị, bạn có thể tiếp tục.
 
 ## 🎯 Bước 4: Sử dụng Add-in
 
+**Cách 1: Tự động xuất hiện (Sau khi thêm Trusted Catalog)**
 1. **Mở Word** (hoặc tạo tài liệu mới)
-2. Vào tab **Insert** (Chèn)
-3. Nhấn **Get Add-ins** (hoặc **Get Add-ons**)
-4. Chọn **My Add-ins** → **My Organization**
-5. Tìm **"Soạn thảo văn bản Việt Nam"**
-6. Nhấn **Add** để cài đặt
-7. Add-in sẽ xuất hiện trong ribbon **Home** (Trang chủ)
+2. Vào tab **Home** (Trang chủ)
+3. Tìm nhóm **"Văn bản VN"** trong ribbon
+4. Nhấn nút **"Soạn thảo văn bản Việt Nam"**
+5. Task Pane sẽ mở bên phải màn hình
+
+**Cách 2: Nếu không thấy trong Home ribbon**
+1. Vào **File** → **Options** → **Trust Center** → **Trust Center Settings**
+2. Chọn **Trusted Add-in Catalogs**
+3. Kiểm tra URL manifest đã được thêm chưa
+4. Nếu chưa, thêm: `https://itdoanh.github.io/stvb/manifest.xml`
+5. Khởi động lại Word
+6. Add-in sẽ tự động xuất hiện trong ribbon **Home**
+
+**Lưu ý:** Word 2026 không có nút "Get Add-ins" trong Insert tab. Add-in sẽ tự động xuất hiện trong Home ribbon sau khi thêm Trusted Catalog.
 
 ---
 
