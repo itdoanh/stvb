@@ -847,6 +847,25 @@ async function loadAiModels() {
     }
 }
 
+function filterAiModels(searchText) {
+    const select = document.getElementById('agentModel');
+    const options = select.querySelectorAll('option');
+    let visibleCount = 0;
+    
+    options.forEach(function(opt) {
+        if (opt.value === '' || opt.textContent.toLowerCase().includes(searchText.toLowerCase())) {
+            opt.style.display = '';
+            visibleCount++;
+        } else {
+            opt.style.display = 'none';
+        }
+    });
+    
+    if (visibleCount === 0) {
+        logAgent('Không tìm thấy model phù hợp với: ' + searchText);
+    }
+}
+
 function setAgentPrompt(text) {
     document.getElementById('agentPrompt').value = text;
 }
