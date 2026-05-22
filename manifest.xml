@@ -10,7 +10,11 @@
   <ProviderName>VietNam Document Editor</ProviderName>
   <DefaultLocale>vi-VN</DefaultLocale>
   <DisplayName DefaultValue="Soạn thảo văn bản Việt Nam"/>
-  <Description DefaultValue="Công cụ soạn thảo văn bản chuẩn Việt Nam theo Nghị định 30/2020/NĐ-CP"/>
+  <Description DefaultValue="Công cụ soạn thảo văn bản chuẩn Việt Nam"/>
+  <IconUrl DefaultValue="https://itdoanh.github.io/stvb/assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://itdoanh.github.io/stvb/assets/icon-80.png"/>
+  <SupportUrl DefaultValue="https://itdoanh.github.io/stvb/"/>
+
   <Hosts>
     <Host Name="Document"/>
   </Hosts>
@@ -74,7 +78,7 @@
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="GetStarted.Title" DefaultValue="Soạn thảo văn bản Việt Nam"/>
-        <bt:String id="GetStarted.Description" DefaultValue="Add-in đã được cài đặt. Mở tab Home và nhấn nút Soạn thảo văn bản Việt Nam để bắt đầu."/>
+        <bt:String id="GetStarted.Description" DefaultValue="Add-in đã được cài đặt. Mở tab Home và nhấn nút để bắt đầu."/>
         <bt:String id="CommandsGroup.Label" DefaultValue="Văn bản VN"/>
         <bt:String id="TaskpaneButton.Label" DefaultValue="Soạn thảo văn bản Việt Nam"/>
       </bt:ShortStrings>
